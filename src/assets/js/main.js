@@ -1,14 +1,36 @@
 const WrapperCards = document.getElementById("wrapper-cards");
+const buttonPrev = document.getElementById("prevButton");
+const buttonNext = document.getElementById("nextButton");
+const searchButton = document.getElementById("search-button");
+const searchInputEl = document.getElementById("search-input");
 const totalOfPagesEl = document.getElementById("total-of-pages");
 const currentPageViewEl = document.getElementById("current-page");
 const totalOfCharactersEl = document.getElementById("total-of-characters");
 const totalOfLocationsEl = document.getElementById("total-of-locations");
 const totalOfEpisodesEl = document.getElementById("total-of-episodes");
 const PER_PAGE = 6;
+let characterName = "";
+let totalOfCharacters;
 let currentPage = 1;
 let currentPageView = Number(currentPageViewEl.innerText);
 let characters = [];
 let charactersView = [];
+
+searchButton.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  setCurrentPageView(1);
+  
+  characters = [];
+  charactersView = [];
+
+  characterName = searchInputEl.value;
+  currentPage = 1
+
+  fetchCharacters();
+  fetchFooterInfo();
+  setView();
+})
 
 function resetCards() {
   WrapperCards.innerHTML = "";
@@ -43,6 +65,18 @@ function addCard(character, episodeName) {
       <img src="${character.image}" alt="image of ${character.name}">
   </div>
   <div class="character-card-content-wrapper">
+    <h2>${character.name}</h2>
+    <div>
+      <div class="status ${status}"></div>
+      <p>${status} - ${character.species}</p>
+    </div>
+  </div>
+`;
+
+{/* <div class="character-card-image-wrapper">
+      <img src="${character.image}" alt="image of ${character.name}">
+  </div>
+  <div class="character-card-content-wrapper">
       <section>
           <h2>${character.name}</h2>
           <div>
@@ -58,10 +92,28 @@ function addCard(character, episodeName) {
           <h3>Last seen in</h3>
           <p>${episodeName}</p>
       </section>
-  </div>
-`;
+  </div> */}
+
 
   WrapperCards.appendChild(card)
+}
+
+function disableButtons() {
+  if (currentPageView < Math.ceil(totalOfCharacters/6)) {
+    buttonNext.disabled = false;
+    buttonNext.classList.remove("disabled");
+  } else  {
+    buttonNext.disabled = true;
+    buttonNext.classList.add("disabled");
+  }
+
+  if (currentPageView > 1) {
+    buttonPrev.disabled = false;
+    buttonPrev.classList.remove("disabled");
+  } else {
+    buttonPrev.disabled = true;
+    buttonPrev.classList.add("disabled");
+  }
 }
 
 async function getLastEpisodeName(character) {
@@ -79,7 +131,7 @@ async function getLastEpisodeName(character) {
 
 async function fetchCharacters() {
   try {
-    const { data } = await api.get("/character?page=" + currentPage);
+    const { data } = await api.get("/character?page=" + currentPage + "&name=" + characterName);
 
     characters.push(...data.results);
 
@@ -89,6 +141,7 @@ async function fetchCharacters() {
 }
 
 async function setView() {
+  console.log(currentPageView);
   charactersView = characters.slice(
     (currentPageView - 1) * PER_PAGE,
     currentPageView * PER_PAGE
@@ -105,6 +158,7 @@ async function setView() {
   }
 
   resetCards();
+  disableButtons();
 
   for (const character of charactersView) {
     const lastEpisodeName = await getLastEpisodeName(character);
@@ -115,9 +169,9 @@ async function setView() {
 
 async function fetchFooterInfo() {
   try {
-    const responseCharacter = await api.get("https://rickandmortyapi.com/api/character");
-    const totalOfCharacters = responseCharacter.data.info.count
-    totalOfPagesEl.innerHTML = Math.ceil(responseCharacter.data.info.count/6)
+    const responseCharacter = await api.get("/character?name=" + characterName);
+    totalOfCharacters = responseCharacter.data.info.count
+    totalOfPagesEl.innerHTML = Math.ceil(totalOfCharacters/6)
     
     const responseLocations = await api.get("https://rickandmortyapi.com/api/location");
     const totalOfLocations = responseLocations.data.info.count
@@ -133,11 +187,13 @@ async function fetchFooterInfo() {
 }
 
 function nextPage() {
-  currentPageView++;
+  if (currentPageView < Math.ceil(totalOfCharacters/6)) {
+    currentPageView++;
 
-  setCurrentPageView(currentPageView);
-  
-  setView();
+    setCurrentPageView(currentPageView);
+      
+    setView();
+  }
 }
 
 function prevPage() {
@@ -145,15 +201,14 @@ function prevPage() {
     currentPageView--;
   
     setCurrentPageView(currentPageView);
-  
+    
     setView();
   }
-  
 }
 
 async function start() {
-  await fetchCharacters();
   fetchFooterInfo()
+  await fetchCharacters();
   setView();
 }
 
