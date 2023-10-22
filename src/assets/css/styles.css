@@ -1,0 +1,168 @@
+header > img {
+    width: 30px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+input {
+    color: #105718;
+    padding-left: 8px;
+}
+
+input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    color: #105718;
+}
+
+.button {
+    width: 70px;
+    padding: 0;
+    height: 35px;
+    background-color: #115f1a;
+    border: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #0e4814;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,.7);
+    transform: scale(1.1);
+    transition: transform 200ms ease-in-out;
+}
+
+main > section {
+    background-image: url(../images/container-notes-background.png);
+    background-size: 100% 100%;
+}
+
+#wrapper-cards {
+    max-width: 1920px;
+}
+
+.character-card {
+    width: 600px;
+    height: 220px;
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.character-card-image-wrapper {
+    flex: 2 1 0;
+    width: 100%;
+}
+
+.character-card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-position: center center;
+    object-fit: cover;
+}
+
+.character-card-content-wrapper {
+    flex: 3 1 0;
+    padding: .75rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #354338;
+}
+
+.Alive {
+    background-color: #56ce42;
+}
+
+.Dead {
+    background-color: #d04242;
+}
+
+.Unknown {
+    background-color: #bdbdbd;
+}
+
+
+.character-card-content-wrapper section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.character-card-content-wrapper h2 {
+    font-size: x-large;
+    margin: 0;
+}
+
+.character-card-content-wrapper h3 {
+    font-size: large;
+    margin: 0;
+    color: #707371;
+}
+
+.character-card-content-wrapper p {
+    font-size: large;
+    margin: 0;
+    color: 707371;
+}
+
+h2 ~ div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+footer span {
+    font-size: 10px;
+}
+
+footer a:hover {
+    color: orange !important;
+}
+
+@media (min-width: 400px) {
+    footer span {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 650px) {
+    main > section {
+        padding: 0 20px;
+    }
+
+    .character-card {
+        flex-direction: column;
+        height: initial;
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    h1 {
+        font-size: 65px !important;
+    }
+
+    footer span {
+        font-size: 17px;
+    }
+}
+
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 80px !important;
+    }
+}
