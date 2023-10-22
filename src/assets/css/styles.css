@@ -5,6 +5,62 @@ header > img {
     left: 10px;
 }
 
+#content {
+    position: relative;
+}
+
+#content h1 {
+    font-size: 50px;
+    color: #105718;
+    text-align: center;
+    font-weight: bolder;
+}
+
+#content h1:nth-child(1) {
+    -webkit-text-stroke: 1.5px #56ce42;
+}
+
+#content h1:nth-child(2) {   
+    position: absolute;
+    color: #56ce42;
+    width: 100%;
+    height: 100%;
+    font-size: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: textAnimation 4s ease-in-out infinite;
+}
+
+@keyframes textAnimation {
+    0%, 100% {
+        clip-path: polygon(
+      0% 45%,
+      16% 44%,
+      33% 50%,
+      54% 60%,
+      70% 61%,
+      84% 59%,
+      100% 52%,
+      100% 100%,
+      0% 100%
+    );
+    }
+    50% {
+        clip-path: polygon(
+      0% 60%,
+      15% 65%,
+      34% 66%,
+      51% 62%,
+      67% 50%,
+      84% 45%,
+      100% 46%,
+      100% 100%,
+      0% 100%
+    );
+    }
+}
+
 input {
     padding-left: 8px;
 }
@@ -121,6 +177,57 @@ h2 ~ div {
     border-radius: 50%;
 }
 
+.modal {
+    color: #ffffffad;
+}
+
+.modal button {
+    position: absolute;
+    z-index: 3;
+    top: 20px;
+    right: 20px;
+}
+
+.modal img {
+    opacity: .5;
+}
+
+.modal h3 p {
+    font-size: 15px !important;
+}
+
+.modal h3 {
+    color: #848484b3;
+}
+
+.modal-container {
+    position: relative;
+    background-color: #354338;
+    border: 2px solid #48ac36;
+}
+
+.screen-effect {
+    background: linear-gradient(#57ce423b,#57ce423b 3px, transparent 3px, transparent 9px);
+    background-size: 100% 9px;
+    width: 100%;
+    height: 100%;
+    animation: screenEffect 22s infinite linear;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+}
+
+@keyframes screenEffect {
+    from {
+        background-position: 0% 0%;
+    }
+
+    to {
+        background-position: 0% -100%;
+    }
+}
+
 footer span {
     font-size: 10px;
 }
@@ -136,6 +243,10 @@ footer a:hover {
 }
 
 @media (max-width: 650px) {
+    h1 {
+        font-size: 25px !important;
+    }
+
     main > section {
         padding: 0 20px;
     }

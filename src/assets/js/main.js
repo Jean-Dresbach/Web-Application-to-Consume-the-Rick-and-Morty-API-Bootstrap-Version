@@ -8,6 +8,7 @@ const currentPageViewEl = document.getElementById("current-page");
 const totalOfCharactersEl = document.getElementById("total-of-characters");
 const totalOfLocationsEl = document.getElementById("total-of-locations");
 const totalOfEpisodesEl = document.getElementById("total-of-episodes");
+
 const PER_PAGE = 6;
 let characterName = "";
 let totalOfCharacters;
@@ -48,16 +49,109 @@ function setFooterInfo(totalOfCharacters, totalOfLocations, totalOfEpisodes) {
   totalOfEpisodesEl.innerHTML = totalOfEpisodes;
 }
 
-function addCard(character, episodeName) {
-  const card = document.createElement("div")
-  
-  card.classList.add("character-card")
-  
-  let status
-  if (character.status === "unknown") {
-    status = "Unknown"
+function addDetailedCharacterModal(character, lastEpisodeName) {
+  const modal = document.createElement("div");
+  modal.classList.add("modal", "fade");
+  modal.setAttribute("tabindex", -1);
+  modal.setAttribute("id", `modal-${character.id}`);
+  modal.setAttribute("data-bs-backdrop", "static");
+  modal.setAttribute("data-bs-keyboard", false);
+
+  let TYPE;
+  if (character.type === "") {
+    TYPE = character.type;
   } else {
-    status = character.status
+    TYPE = " - " + character.type;
+  }
+
+  let status;
+  if (character.status === "unknown") {
+    status = "Unknown";
+  } else {
+    status = character.status;
+  }
+
+  modal.innerHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-container overflow-hidden">
+        <div class="screen-effect"></div>
+        <div class="modal-header d-flex flex-column align-items-start">
+          <h2 class="modal-title fs-3" id="staticBackdropLabel">${character.name}</h2>
+          <p class="m-0">${character.gender}${TYPE}</p>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-body text-center">
+            <div class="row m-0 mb-3">
+              <img class="img-fluid p-0 rounded-3" src="${character.image}" alt="image of ${character.name}">
+            </div>
+            <div class="d-flex justify-content-center align-items-center m-0 mb-3 gap-2">
+              <div class="status"></div>
+              <p class="m-0">${status} - ${character.species}</p>
+            </div>
+            <div class="row m-0 mb-3">
+              <h3>Origin</h3>
+              <p class="m-0">${character.origin.name}</p>
+            </div>
+            <div class="row m-0 mb-3">
+              <h3>Last known location</h3>
+              <p class="m-0">${character.location.name}</p>
+            </div>
+            <div class="row m-0">
+              <h3>Last seen in</h3>
+              <p class="m-0">${lastEpisodeName}</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  `;
+
+  WrapperCards.appendChild(modal);
+
+  {/* <div class="modal fade" tabindex="-1" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-container overflow-hidden">
+                <div class="screen-effect"></div>
+                <div class="modal-header d-flex flex-column align-items-start">
+                    <h2 class="modal-title fs-3" id="staticBackdropLabel">${character.name}</h2>
+                    <p class="m-0">${character.gender} - ${character.type}</p>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="row m-0 mb-3">
+                        <img class="img-fluid p-0 rounded-3" src="./src/assets/images/FUNDO.jpg" alt="" srcset="">
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center m-0 mb-3 gap-2">
+                        <div class="status"></div>
+                        <p class="m-0">${status} - ${character.species}</p>
+                    </div>
+                    <div class="row m-0 mb-3">
+                        <h3>Origin</h3>
+                        <p class="m-0">${character.origin.name}</p>
+                    </div>
+                    <div class="row m-0 mb-3">
+                        <h3>Last known location</h3>
+                        <p class="m-0">${character.location.name}</p>
+                    </div>
+                    <div class="row m-0">
+                        <h3>Last seen in</h3>
+                        <p class="m-0">${episodeName}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> */}
+}
+
+function addCard(character) {
+  const card = document.createElement("div")
+  card.classList.add("character-card")
+  card.setAttribute("data-bs-toggle", "modal");
+  card.setAttribute("data-bs-target", `modal-${character.id}`);
+
+  let status;
+  if (character.status === "unknown") {
+    status = "Unknown";
+  } else {
+    status = character.status;
   }
 
   card.innerHTML += `
@@ -71,29 +165,7 @@ function addCard(character, episodeName) {
       <p>${status} - ${character.species}</p>
     </div>
   </div>
-`;
-
-{/* <div class="character-card-image-wrapper">
-      <img src="${character.image}" alt="image of ${character.name}">
-  </div>
-  <div class="character-card-content-wrapper">
-      <section>
-          <h2>${character.name}</h2>
-          <div>
-              <div class="status ${status}"></div>
-              <p>${status} - ${character.species}</p>
-          </div>
-      </section>
-      <section>
-          <h3>Last known location</h3>
-          <p>${character.location.name}</p>
-      </section>
-      <section>
-          <h3>Last seen in</h3>
-          <p>${episodeName}</p>
-      </section>
-  </div> */}
-
+  `;
 
   WrapperCards.appendChild(card)
 }
@@ -163,7 +235,8 @@ async function setView() {
   for (const character of charactersView) {
     const lastEpisodeName = await getLastEpisodeName(character);
     
-    addCard(character, lastEpisodeName);
+    addCard(character);
+    addDetailedCharacterModal(character, lastEpisodeName)
   }
 }
 

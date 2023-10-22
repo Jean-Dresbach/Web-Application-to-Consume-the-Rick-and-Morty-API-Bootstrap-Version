@@ -14,9 +14,12 @@
         <img src="./src/assets/images/icons/RICK_MORTY_ICON.png" alt="icon RICK and MORTY">
 
         <div class="d-flex flex-column align-items-center">
-            <h1 class="fw-bolder text-center mb-4" style="color: #105718; font-size: 50px;">Rick and Morty API</h1>
+            <div id="content">
+                <h1>RICK AND MORTY API</h1>
+                <h1>RICK AND MORTY API</h1>
+            </div>
 
-            <div class="row w-100 rounded-3 overflow-hidden" style="border: 1px solid #d4d1d1;">
+            <div id="container-input" class="row w-100 rounded-3 overflow-hidden" style="border: 1px solid #d4d1d1;">
                 <div class="col-10 p-0">
                     <input type="text" id="search-input" class="border-0 w-100" placeholder="Search...">
                 </div>
@@ -33,18 +36,12 @@
                 </div>
             </div>
 
-            <div class="row w-100 justify-content-between pt-4">
-                <div class="col d-flex justify-content-end align-items-center">
-                    <button id="prevButton" onclick="prevPage()" class="button">Prev</button>
-                </div>
+            <div class="row w-100 justify-content-center pt-4">
+                <button id="prevButton" onclick="prevPage()" class="button">Prev</button>
 
-                <div class="col-4 d-flex align-items-center justify-content-center">
-                    <p class="fs-5 m-0 fw-bold" style="color: #105718;"><span id="current-page">1</span> / <span id="total-of-pages">360</span></p>
-                </div>
+                <span class="fs-5 m-0 fw-bold w-auto" style="color: #105718;"><span id="current-page">1</span> / <span id="total-of-pages">360</span></span>
                 
-                <div class="col d-flex align-items-center">
-                    <button id="nextButton" onclick="nextPage()" class="button">Next</button>
-                </div>
+                <button id="nextButton" onclick="nextPage()" class="button">Next</button>
             </div>
         </div>
 
