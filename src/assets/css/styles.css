@@ -141,15 +141,15 @@ main > section {
 }
 
 .Alive {
-    background-color: #56ce42;
+    background-color: #57ce42b3;
 }
 
 .Dead {
-    background-color: #d04242;
+    background-color: #d04242a9;
 }
 
 .Unknown {
-    background-color: #bdbdbd;
+    background-color: #bdbdbdaa;
 }
 
 .character-card-content-wrapper h2 {
@@ -189,10 +189,10 @@ h2 ~ div {
 }
 
 .modal img {
-    opacity: .5;
+    opacity: .7;
 }
 
-.modal h3 p {
+.modal h3 , p {
     font-size: 15px !important;
 }
 

@@ -57,18 +57,18 @@ function addDetailedCharacterModal(character, lastEpisodeName) {
   modal.setAttribute("data-bs-backdrop", "static");
   modal.setAttribute("data-bs-keyboard", false);
 
-  let TYPE;
-  if (character.type === "") {
-    TYPE = character.type;
-  } else {
-    TYPE = " - " + character.type;
-  }
-
   let status;
   if (character.status === "unknown") {
     status = "Unknown";
   } else {
     status = character.status;
+  }
+
+  let ORIGIN;
+  if (character.origin.name === "unknown") {
+    ORIGIN = "Unknown";
+  } else {
+    ORIGIN = character.origin.name;
   }
 
   modal.innerHTML = `
@@ -77,75 +77,42 @@ function addDetailedCharacterModal(character, lastEpisodeName) {
         <div class="screen-effect"></div>
         <div class="modal-header d-flex flex-column align-items-start">
           <h2 class="modal-title fs-3" id="staticBackdropLabel">${character.name}</h2>
-          <p class="m-0">${character.gender}${TYPE}</p>
+          <p class="m-0">${character.type}</p>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          <div class="modal-body text-center">
-            <div class="row m-0 mb-3">
-              <img class="img-fluid p-0 rounded-3" src="${character.image}" alt="image of ${character.name}">
-            </div>
-            <div class="d-flex justify-content-center align-items-center m-0 mb-3 gap-2">
-              <div class="status"></div>
-              <p class="m-0">${status} - ${character.species}</p>
-            </div>
-            <div class="row m-0 mb-3">
-              <h3>Origin</h3>
-              <p class="m-0">${character.origin.name}</p>
-            </div>
-            <div class="row m-0 mb-3">
-              <h3>Last known location</h3>
-              <p class="m-0">${character.location.name}</p>
-            </div>
-            <div class="row m-0">
-              <h3>Last seen in</h3>
-              <p class="m-0">${lastEpisodeName}</p>
-            </div>
+        </div>
+        <div class="modal-body text-center">
+          <div class="row m-0 mb-3 justify-content-center">
+            <img class="img-fluid w-75 p-0 rounded-3" src="${character.image}" alt="image of ${character.name}">
           </div>
+          <div class="d-flex justify-content-center align-items-center m-0 mb-3 gap-2">
+            <div class="status ${status}"></div>
+            <p class="m-0">${status} - ${character.species} - ${character.gender}</p>
+          </div>
+          <div class="row m-0 mb-3">
+            <h3>Origin</h3>
+            <p class="m-0">${ORIGIN}</p>
+          </div>
+          <div class="row m-0 mb-3">
+            <h3>Last known location</h3>
+            <p class="m-0">${character.location.name}</p>
+          </div>
+          <div class="row m-0">
+            <h3>Last seen in</h3>
+            <p class="m-0">${lastEpisodeName}</p>
+          </div>
+        </div>
       </div>
     </div>
   `;
 
   WrapperCards.appendChild(modal);
-
-  {/* <div class="modal fade" tabindex="-1" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content modal-container overflow-hidden">
-                <div class="screen-effect"></div>
-                <div class="modal-header d-flex flex-column align-items-start">
-                    <h2 class="modal-title fs-3" id="staticBackdropLabel">${character.name}</h2>
-                    <p class="m-0">${character.gender} - ${character.type}</p>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="row m-0 mb-3">
-                        <img class="img-fluid p-0 rounded-3" src="./src/assets/images/FUNDO.jpg" alt="" srcset="">
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center m-0 mb-3 gap-2">
-                        <div class="status"></div>
-                        <p class="m-0">${status} - ${character.species}</p>
-                    </div>
-                    <div class="row m-0 mb-3">
-                        <h3>Origin</h3>
-                        <p class="m-0">${character.origin.name}</p>
-                    </div>
-                    <div class="row m-0 mb-3">
-                        <h3>Last known location</h3>
-                        <p class="m-0">${character.location.name}</p>
-                    </div>
-                    <div class="row m-0">
-                        <h3>Last seen in</h3>
-                        <p class="m-0">${episodeName}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> */}
 }
 
 function addCard(character) {
   const card = document.createElement("div")
   card.classList.add("character-card")
   card.setAttribute("data-bs-toggle", "modal");
-  card.setAttribute("data-bs-target", `modal-${character.id}`);
+  card.setAttribute("data-bs-target", `#modal-${character.id}`);
 
   let status;
   if (character.status === "unknown") {
