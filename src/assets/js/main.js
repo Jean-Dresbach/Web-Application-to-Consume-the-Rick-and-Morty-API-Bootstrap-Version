@@ -49,6 +49,10 @@ function setFooterInfo(totalOfCharacters, totalOfLocations, totalOfEpisodes) {
   totalOfEpisodesEl.innerHTML = totalOfEpisodes;
 }
 
+function showAnimation() {
+  
+}
+
 function addDetailedCharacterModal(character, lastEpisodeName) {
   const modal = document.createElement("div");
   modal.classList.add("modal", "fade");
@@ -126,6 +130,9 @@ function addCard(character) {
       <img src="${character.image}" alt="image of ${character.name}">
   </div>
   <div class="character-card-content-wrapper">
+    <div class="bg-animated"></div>
+    <div class="bg-animated bg2"></div>
+    <div class="bg-animated bg3"></div>
     <h2>${character.name}</h2>
     <div>
       <div class="status ${status}"></div>
@@ -213,10 +220,10 @@ async function fetchFooterInfo() {
     totalOfCharacters = responseCharacter.data.info.count
     totalOfPagesEl.innerHTML = Math.ceil(totalOfCharacters/6)
     
-    const responseLocations = await api.get("https://rickandmortyapi.com/api/location");
+    const responseLocations = await api.get("https://rickandmortyapi.com/api/location?name=" + characterName);
     const totalOfLocations = responseLocations.data.info.count
     
-    const responseEpisodes = await api.get("https://rickandmortyapi.com/api/episode");
+    const responseEpisodes = await api.get("https://rickandmortyapi.com/api/episode?name=" + characterName);
     const totalOfEpisodes = responseEpisodes.data.info.count
     
     setFooterInfo(totalOfCharacters, totalOfLocations, totalOfEpisodes)

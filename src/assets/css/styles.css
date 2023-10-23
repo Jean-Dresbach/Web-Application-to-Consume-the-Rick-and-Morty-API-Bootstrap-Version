@@ -111,6 +111,7 @@ main > section {
     padding: 0;
     display: flex;
     overflow: hidden;
+    cursor: pointer;
     border-radius: 10px;
     margin: 0.75rem;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -129,6 +130,8 @@ main > section {
 }
 
 .character-card-content-wrapper {
+    position: relative;
+    overflow: hidden;
     flex: 3 1 0;
     padding: 0 15px;
     color: white;
@@ -139,6 +142,41 @@ main > section {
     background-color: #354338;
     gap: 20px;
 }
+
+.bg-animated {
+    display: none;
+    position: absolute;
+    bottom:0;
+    left:-50%;
+    opacity:.5;
+    right:-50%;
+    top:0;
+    animation: slide 2s ease-in-out infinite alternate;
+    background-image: linear-gradient(90deg, rgba(102, 204, 51, 0.5) 50%, rgba(0, 153, 255, 0.561) 50%);
+    z-index: 0;
+}
+
+.character-card:hover .bg-animated {
+    display: block;
+  }
+
+.bg2 {
+    animation-direction:alternate-reverse;
+    animation-duration:4s;
+}
+
+.bg3 {
+    animation-duration:5s;
+}
+
+@keyframes slide {
+    0% {
+      transform:translateX(-25%);
+    }
+    100% {
+      transform:translateX(25%);
+    }
+  }
 
 .Alive {
     background-color: #57ce42b3;
@@ -157,12 +195,14 @@ main > section {
     font-weight: bolder;
     text-align: center;
     margin: 0;
+    z-index: 2;
 }
 
 .character-card-content-wrapper p {
     font-size: 20px;
     margin: 0;
     color: 707371;
+    z-index: 2;
 }
 
 h2 ~ div {
@@ -175,6 +215,7 @@ h2 ~ div {
     width: 15px;
     height: 15px;
     border-radius: 50%;
+    z-index: 2;
 }
 
 .modal {
