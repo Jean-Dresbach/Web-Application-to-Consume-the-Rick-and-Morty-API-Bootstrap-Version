@@ -49,10 +49,6 @@ function setFooterInfo(totalOfCharacters, totalOfLocations, totalOfEpisodes) {
   totalOfEpisodesEl.innerHTML = totalOfEpisodes;
 }
 
-function showAnimation() {
-  
-}
-
 function addDetailedCharacterModal(character, lastEpisodeName) {
   const modal = document.createElement("div");
   modal.classList.add("modal", "fade");
